@@ -1,0 +1,45 @@
+
+CREATE TABLE usuarios (
+    id SERIAL PRIMARY KEY,
+    nome_completo VARCHAR(255) NOT NULL,
+    cpf VARCHAR(14) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    cargo VARCHAR(100),
+    login VARCHAR(100) UNIQUE NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    perfil VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE projetos (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    descricao TEXT,
+    data_inicio DATE,
+    data_termino_prevista DATE,
+    status VARCHAR(50),
+    id_gerente_responsavel INTEGER REFERENCES usuarios(id)
+);
+
+
+CREATE TABLE equipes (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    descricao TEXT
+);
+
+
+
+CREATE TABLE equipe_membros (
+    id_equipe INTEGER REFERENCES equipes(id),
+    id_usuario INTEGER REFERENCES usuarios(id),
+    PRIMARY KEY (id_equipe, id_usuario)
+);
+
+
+
+CREATE TABLE projeto_equipes (
+    id_projeto INTEGER REFERENCES projetos(id),
+    id_equipe INTEGER REFERENCES equipes(id),
+    PRIMARY KEY (id_projeto, id_equipe)
+);
+
